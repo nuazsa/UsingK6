@@ -1,4 +1,5 @@
 import http from 'k6/http';
+import exec from 'k6/execution';
 
 export const options = {
   vus: 10,
@@ -6,23 +7,10 @@ export const options = {
 };
 
 export default function() {
-  const uniqEmail = new Date().getTime();
-
-  const requestRegister = {
-    name: "Test",
-    email: `${uniqEmail}@gmail.com`,
-    password: "11112222"
-  }
-
-  http.post("http://localhost:3000/register", JSON.stringify(requestRegister), {
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json"
-    }
-  });
-
+  const email = `example${exec.vu.idInInstance}@gmail.com`;
+  
   const requestLogin = {
-    email: `${uniqEmail}@gmail.com`,
+    email: email,
     password: "11112222"
   }
 

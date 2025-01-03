@@ -30,12 +30,12 @@ export function postStory(body, token) {
     }
   });
 
-  const checkPost = check(responsePost, {
+  const checkStory = check(responsePost, {
     'create status was 200': (res) => res.status === 201
   });
   
   if (!checkStory) {
     fail(`Failed to upload story`);
   }
-  return responseStories;
+  return responsePost;
 }

@@ -2,11 +2,12 @@ import http from 'k6/http';
 import { loginUser, registerUser } from './helper/user.js';
 import { postStory } from './helper/story.js';
 import exec from 'k6/execution';
+import { Counter } from 'k6/metrics';
 
 export const options = {
   scenarios: {
-    registerUserSecenario: {
-      exec: 'registerUserSecenario',
+    register_user_secenario: {
+      exec: 'register_user_secenario',
       executor: 'shared-iterations',
       vus: 5,
       iterations: 10,
@@ -22,7 +23,10 @@ export const options = {
   },
 };
 
-export function registerUserSecenario() {
+const registerCounterUser = new Counter('user_registration_counter_success')
+const storiesCounterUser = new Counter('uset_stories_counter_success')
+
+export function register_user_secenario() {
   const uniqEmail = new Date().getTime()
   const requestRegister = {
     name: `name-${uniqEmail}`,
@@ -30,7 +34,8 @@ export function registerUserSecenario() {
     password: '11112222'
   }
 
-  registerUser(requestRegister)
+  const registerResponse = registerUser(requestRegister)
+  if (registerResponse.status == 201) return registerCounterUser.add(1)
 }
 
 export function story_creation_secenario() {
@@ -45,5 +50,7 @@ export function story_creation_secenario() {
   const token = 'Bearer ' + responseLogin.json().loginResult.token;
 
   const data = { description: "example story" }
-  postStory(data, token)
+  const storyResponse = postStory(data, token)
+
+  if (storyResponse.status == 201) return storiesCounterUser.add(1)
 }

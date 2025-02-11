@@ -47,7 +47,7 @@ export function story_creation_secenario() {
   }
 
   const responseLogin = loginUser(requestLogin);
-  const token = 'Bearer ' + responseLogin.json().loginResult.token;
+  const token = 'Bearer ' + responseLogin.json().data.token;
 
   const data = { description: "example story" }
   const storyResponse = postStory(data, token)

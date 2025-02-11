@@ -25,22 +25,23 @@ export function getToken() {
     password: "11112222"
   }
 
-  const responseLogin = http.post("http://localhost:3000/login", JSON.stringify(requestLogin), {
+  const responseLogin = http.post("http://localhost:3000/api/login", JSON.stringify(requestLogin), {
     headers: {
         "Content-Type": "application/json",
         "Accept": "application/json"
     }
   });
 
-  return `Bearer ${responseLogin.json().loginResult.token}`
+  return `Bearer ${responseLogin.json().data.token}`
 }
 
 export default function(data) {
   const token = getToken();
 
+  console.log(token);
   for (let i = 0; i < data.length; i++) {
     const story = data[i];
-    const responsePost = http.post("http://localhost:3000/stories", JSON.stringify(story), {
+    const responsePost = http.post("http://localhost:3000/api/stories", JSON.stringify(story), {
       headers: {
           "Content-Type": "application/json",
           "Accept": "application/json",

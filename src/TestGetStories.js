@@ -25,7 +25,7 @@ export default function() {
     };
     
     const responseLogin = loginUser(requestLogin)
-    const token = `Bearer ${responseLogin.json().loginResult.token}`;
+    const token = `Bearer ${responseLogin.json().data.token}`;
 
     // Get Stories
     getAllStory(token)

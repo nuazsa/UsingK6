@@ -18,7 +18,7 @@ export default function() {
     password: "11112222"
   }
 
-  http.post("http://localhost:3000/register", JSON.stringify(requestRegister), {
+  http.post("http://localhost:3000/api/register", JSON.stringify(requestRegister), {
     headers: {
       "Content-Type": "application/json",
       "Accept": "application/json"
@@ -34,7 +34,7 @@ export default function() {
     password: "11112222"
   }
 
-  const responseLogin = http.post("http://localhost:3000/login", JSON.stringify(requestLogin), {
+  const responseLogin = http.post("http://localhost:3000/api/login", JSON.stringify(requestLogin), {
     headers: {
         "Content-Type": "application/json",
         "Accept": "application/json"
@@ -45,5 +45,5 @@ export default function() {
    * 
    * Get token
    */
-  const token = `Bearer ${responseLogin.json().loginResult.token}`
+  const token = `Bearer ${responseLogin.json().data.token}`
 }
